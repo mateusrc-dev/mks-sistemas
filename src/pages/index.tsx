@@ -1,5 +1,14 @@
+import Image from "next/image";
+import { HomeContainer, Product } from "../styles/pages/home";
+
+
+
 export default function Home() {
   return (
-    <h1>Hello World</h1>
+    <HomeContainer>
+      <Product>
+        <Image src={} />
+      </Product>
+    </HomeContainer>
   )
 }
