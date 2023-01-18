@@ -22,5 +22,11 @@ export const {
       green500: '#00875f',
       green300: '#00b37e'
     },
+    fontSizes: {// como vamos ter valores pré-definidos para tamanho de fontes, vamos colocá-los aqui
+      md: '1.125rem',
+      lg: '1.25rem',
+      xl: '1.5rem',
+      '2xl': '2rem',
+    },
   }
 }) // essa função devolve uma série de configurações - podemos configurar com essa função algumas coisas

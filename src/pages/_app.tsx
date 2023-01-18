@@ -4,7 +4,7 @@ import logoImg from "../assets/logo.svg"
 import Image from "next/image"
 import { Container, Header } from "../styles/pages/app"
 
-globalStyles() // aqui estamos importando o estilo global - melhor colocar fora poruqe os estilos não mudam - Component vai sempre trocar pela página que estamos acessando
+globalStyles() // aqui estamos importando o estilo global - melhor colocar fora porque os estilos não mudam - Component vai sempre trocar pela página que estamos acessando
 
 export default function App({Component, pageProps}: AppProps) { // podemos colocar a tipagem que vem do next - podemos alterar MyApp para App
   return (
