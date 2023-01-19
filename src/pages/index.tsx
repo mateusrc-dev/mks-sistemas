@@ -1,12 +1,9 @@
 import Image from "next/image";
 import { HomeContainer, Product } from "../styles/pages/home";
 import { useKeenSlider } from 'keen-slider/react' // biblioteca para criar o slider
-import camiseta1 from "../assets/camisetas/1.png"
-import camiseta2 from "../assets/camisetas/2.png"
-import camiseta3 from "../assets/camisetas/3.png"
 import 'keen-slider/keen-slider.min.css' //importando css da biblioteca do slider
 import { stripe } from "../lib/stripe";
-import { GetServerSideProps } from "next";
+import { GetStaticProps } from "next";
 import Stripe from "stripe";
 
 interface HomeProps { // tipagem das props que vem do servidor node.js
@@ -48,7 +45,7 @@ export default function Home({products}: HomeProps) { // vamos pegar os products
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async() => { // vamos importar a tipagem da função
+export const getStaticProps: GetStaticProps = async() => { // vamos importar a tipagem da função
   await new Promise(resolve => setTimeout(resolve, 2000)) // para o js ficar parado aqui 2 segundos - a tela vai demorar dois segundos pra ser carregado e os dados da lista vão aparecer juntos - isso ajuda o boot do google a ver a página inteira, diferente do SPA que os dados da API demoram pra carregar
 
   const response = await stripe.products.list({
@@ -68,6 +65,7 @@ export const getServerSideProps: GetServerSideProps = async() => { // vamos impo
   return {
     props: {
       products,
-    }
+    },
+    revalidade: 60 * 60 * 2, // para a página estática ser recriada no cache em um determinado intervalo de tempo ao usuário acessar a página - colocamos um número em segundos - 2 hours
   }
 } // para obter propriedades do ServerSide (camada do next.js - servidor node) - portanto, essas props aparecem mesmo com js desabilitado - esse código é executado somente na camada node.js - só fazemos chamadas com getServerProps pra trazer informações pra nossa página que a gente precisa que esteja disponíveis assim que a página seja disponibilizada em tela para indexadores, boots...
