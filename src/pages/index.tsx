@@ -5,8 +5,20 @@ import camiseta1 from "../assets/camisetas/1.png"
 import camiseta2 from "../assets/camisetas/2.png"
 import camiseta3 from "../assets/camisetas/3.png"
 import 'keen-slider/keen-slider.min.css' //importando css da biblioteca do slider
+import { stripe } from "../lib/stripe";
+import { GetServerSideProps } from "next";
+import Stripe from "stripe";
 
-export default function Home() {
+interface HomeProps { // tipagem das props que vem do servidor node.js
+  products: {
+    id: string,
+    name: string,
+    imageUrl: string,
+    price: number,
+  }[] // cochete para indicar que é um array de produtos
+}
+
+export default function Home({products}: HomeProps) { // vamos pegar os products que vem do servidor node
   const [ sliderRef ] = useKeenSlider({ // refs são funcionalidades do react que nos permite ter acesso a uma referência de um elemento na dom -> esse hook retorna um array
     slides: {
       perView: 3, // para ficar aparecendo três produtos no slider
@@ -16,50 +28,46 @@ export default function Home() {
    
   return (
     <HomeContainer ref={sliderRef} className="keen-slider"> {/*passamos ref para o container que cerca o slider - precisamos passar essas classes para o slider funcionar*/}
-      <Product className="keen-slider__slide">
-        <Image src={camiseta1} alt="" width={520} height={480} /> {/*quando usamos o Image do next é importante colocar altura e largura pra imagem não ficar com um tamanho muito grande*/}
+    { products.map(product => {
+    return (
+      <Product key={product.id} className="keen-slider__slide">
+        <Image src={product.imageUrl} alt="" width={520} height={480} /> {/*quando usamos o Image do next é importante colocar altura e largura pra imagem não ficar com um tamanho muito grande - precisamos colocar o domínio para o endereço da imagem funcionar no next*/}
         <footer> {/*melhor elemento pra colocar legenda na imagem*/}
           <strong>
-            Camiseta X
+            {product.name}
           </strong>
           <span>
-            R$ 79,90
+            {product.price}
           </span>
         </footer>
       </Product>
-      <Product className="keen-slider__slide">
-        <Image src={camiseta2} alt="" width={520} height={480} /> {/*quando usamos o Image do next é importante colocar altura e largura pra imagem não ficar com um tamanho muito grande*/}
-        <footer> {/*melhor elemento pra colocar legenda na imagem*/}
-          <strong>
-            Camiseta X
-          </strong>
-          <span>
-            R$ 79,90
-          </span>
-        </footer>
-      </Product>
-      <Product className="keen-slider__slide">
-        <Image src={camiseta2} alt="" width={520} height={480} /> {/*quando usamos o Image do next é importante colocar altura e largura pra imagem não ficar com um tamanho muito grande*/}
-        <footer> {/*melhor elemento pra colocar legenda na imagem*/}
-          <strong>
-            Camiseta X
-          </strong>
-          <span>
-            R$ 79,90
-          </span>
-        </footer>
-      </Product>
-      <Product className="keen-slider__slide">
-        <Image src={camiseta2} alt="" width={520} height={480} /> {/*quando usamos o Image do next é importante colocar altura e largura pra imagem não ficar com um tamanho muito grande*/}
-        <footer> {/*melhor elemento pra colocar legenda na imagem*/}
-          <strong>
-            Camiseta X
-          </strong>
-          <span>
-            R$ 79,90
-          </span>
-        </footer>
-      </Product>
+      )
+      })
+      }
     </HomeContainer>  
   )
 }
+
+export const getServerSideProps: GetServerSideProps = async() => { // vamos importar a tipagem da função
+  await new Promise(resolve => setTimeout(resolve, 2000)) // para o js ficar parado aqui 2 segundos - a tela vai demorar dois segundos pra ser carregado e os dados da lista vão aparecer juntos - isso ajuda o boot do google a ver a página inteira, diferente do SPA que os dados da API demoram pra carregar
+
+  const response = await stripe.products.list({
+    expand: ['data.default_price'] // quando fazemos essa expansão do id do preço podemos pegar as propriedades do preço
+  })
+
+  const products = response.data.map(product => {
+    const price = product.default_price as Stripe.Price // vamos forçar para que o price seja um Stripe.Price pois fizemos um expand (porque antes ele poderia ser uma string também na tipagem)
+    return {
+      id: product.id,
+      name: product.name,
+      imageUrl: product.images[0],
+      price: price.unit_amount / 100, // vamos dividir por 100 porque o preço vem em centavos - uma dica é salvar no banco de dados o preço em centavos (o stripe faz isso - multiplica o preço por 100)
+    }
+  }) // esses dados (se colocados no console.log) vão aparecer no console.log do node.js - vamos pegar apenas os dados que queremos
+
+  return {
+    props: {
+      products,
+    }
+  }
+} // para obter propriedades do ServerSide (camada do next.js - servidor node) - portanto, essas props aparecem mesmo com js desabilitado - esse código é executado somente na camada node.js - só fazemos chamadas com getServerProps pra trazer informações pra nossa página que a gente precisa que esteja disponíveis assim que a página seja disponibilizada em tela para indexadores, boots...
