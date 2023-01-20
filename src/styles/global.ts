@@ -6,6 +6,7 @@ export const globalStyles = globalCss({
   '*': {
     margin: 0,
     padding: 0,
+    boxSizing: 'border-box',
   }, // lembrando que temos que escrever essas instruções css como objeto JS
 
   body: {

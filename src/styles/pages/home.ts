@@ -45,7 +45,8 @@ export const Product = styled('a', { // aqui é onde vai ficar cada um dos produ
     transition: 'all 0.5s ease-in-out',
 
     'strong': {
-      fontSize: '$lg'
+      fontSize: '$lg',
+      color: '$gray100',
     },
 
     'span': {
