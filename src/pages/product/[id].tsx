@@ -16,6 +16,7 @@ interface ProductProps {
     imageUrl: string,
     price: string, // vamos colocar string porque estamos formatando o preço
     description: string,
+    defaultPriceId: string,
   }
 }
 
@@ -24,6 +25,10 @@ export default function Product({ product }: ProductProps) { // vamos receber do
   const { isFallback } = useRouter() // o next nos permite através desse hook acessar isFallback - se isFallback for true quer dizer que a página está carregando - os dados que vem dos parâmetros e são processados em getStaticProps
   if (isFallback) {
     return <p>Loading...</p>
+  }
+
+  function handleBuyProduct() {
+    console.log(product.defaultPriceId)
   }
   return (
     <ProductContainer>
@@ -36,7 +41,7 @@ export default function Product({ product }: ProductProps) { // vamos receber do
         <p>
           {product.description}
         </p>
-        <button>Comprar agora</button>
+        <button onClick={handleBuyProduct}>Comprar agora</button>
       </ProductDetails>
     </ProductContainer>
   );
@@ -57,7 +62,7 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
   // diferente da Home, aqui vamos gerar uma página estática por produto
   const productId = params.id; // podemos pegar o id que vem através do nome do arquivo - através da url
   const product = await stripe.products.retrieve(productId, {
-    expand: ["default_price"], // vamos fazer novamente expand para buscar o preço - não precisamos colocar 'data' porque não é uma lista
+    expand: ["default_price"], // vamos fazer novamente expand para buscar o preço - não precisamos colocar 'data' porque não é uma lista - buscar o preço padrão
   });
 
   const price = product.default_price as Stripe.Price; // vamos forçar para que o price seja um Stripe.Price pois fizemos um expand (porque antes o price poderia ser uma string também na tipagem)
@@ -74,6 +79,7 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
         }).format(price.unit_amount / 100), // vamos dividir por 100 porque o preço vem em centavos - uma dica é salvar no banco de dados o preço em centavos (o stripe faz isso - multiplica o preço por 100)},
         revalidate: 60 * 60 * 1, // para dizer quanto tempo queremos manter a página em cache - 1 hour
         description: product.description,
+        defaultPriceId: price.id, // aqui é o id da relação entre produto e preços - vamos enviar esse dado para a api router do next no momento da compra
       },
     },
   };
