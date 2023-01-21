@@ -33,7 +33,7 @@ export default function Home({ products }: HomeProps) {
       {/*passamos ref para o container que cerca o slider - precisamos passar essas classes para o slider funcionar*/}
       {products.map((product) => {
         return (
-          <Link href={`/product/${product.id}`} key={product.id}>
+          <Link href={`/product/${product.id}`} key={product.id} prefetch={false}>
             <Product className="keen-slider__slide">
               <Image src={product.imageUrl} alt="" width={520} height={480} />
               {/*quando usamos o Image do next é importante colocar altura e largura pra imagem não ficar com um tamanho muito grande - precisamos colocar o domínio para o endereço da imagem funcionar no next*/}
