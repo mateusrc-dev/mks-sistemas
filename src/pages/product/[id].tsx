@@ -1,6 +1,6 @@
 import { GetStaticPaths, GetStaticProps } from "next";
 import Image from "next/image";
-//import { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import Stripe from "stripe";
 import { stripe } from "../../lib/stripe";
 import {
@@ -21,6 +21,10 @@ interface ProductProps {
 
 export default function Product({ product }: ProductProps) { // vamos receber do servidor node.js as propriedades
   //const { query } = useRouter(); // com esse hook que vem de dentro do next podemos acessar os params que estão dentro do objeto chamado query
+  const { isFallback } = useRouter() // o next nos permite através desse hook acessar isFallback - se isFallback for true quer dizer que a página está carregando - os dados que vem dos parâmetros e são processados em getStaticProps
+  if (isFallback) {
+    return <p>Loading...</p>
+  }
   return (
     <ProductContainer>
       <ImageContainer>
@@ -40,9 +44,9 @@ export default function Product({ product }: ProductProps) { // vamos receber do
 export const getStaticPaths: GetStaticPaths = async () => {
   return { // quando temos páginas estáticas que possuem parametros, precisamos retornar um getStaticPaths que é um método que retorna esses parâmetros
     paths: [
-      {params: {id: 'prod_NBzSSHOrjnd4kD'} }
+      {params: {id: 'prod_NBzSSHOrjnd4kD'} } // aqui vamos retornar os parâmetros dentro desse array - temos que deixar enxuto porque pode pesar na hora de executar a build - podemos colocar apenas os produtos mais vendidos, mais acessados - podemos deixar vazio e deixar o fallback gerar as páginas
     ],
-    fallback: false,
+    fallback: true, // com true, as páginas dos produtos que não passamos nos paths o next vai tentar pegar o id dessa página e passar para o método getStaticProps - só que vai demorar um tempo para esses dados carregarem... precisamos colocar um loading - usando blocking como valor não precisar colocar loading
   }
 }
 
