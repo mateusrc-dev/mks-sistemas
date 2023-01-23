@@ -9,7 +9,7 @@ export const HomeContainer = styled('main', { // vai ficar por volta de todo o c
   minHeight: '656', // para o layout não ficar tão centralizado verticalmente
 })
 
-export const Product = styled('a', { // aqui é onde vai ficar cada um dos produtos de dentro do carrossel
+export const Product = styled('div', { // aqui é onde vai ficar cada um dos produtos de dentro do carrossel
   background: 'linear-gradient(180deg, #1ea483 0%, #7465d4 100%)',
   borderRadius: 8,
   //padding: '0.25rem', // essa propriedade não é calculada no slider
