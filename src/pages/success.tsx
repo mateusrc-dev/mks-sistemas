@@ -1,4 +1,5 @@
 import { GetServerSideProps } from "next";
+import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import Stripe from "stripe";
@@ -16,28 +17,36 @@ interface SuccessProps {
 export default function Success({ customerName, product }: SuccessProps) {
   // vamos pegar as informações da propriedade
   return (
-    <SuccessContainer>
-      <h1>Compra efetuada!</h1>
-      <ImageContainer>
-        <Image src={product.imageUrl} alt="" width={120} height={110} />
-      </ImageContainer>
-      <p>
-        Uhuul <strong>{customerName}</strong>, sua{" "}
-        <strong>{product.name}</strong> já está a caminho da sua casa.
-      </p>
-      <Link href="/">Voltar ao catálogo</Link>
-    </SuccessContainer>
+    <>
+      <Head>
+        {/*tudo que colocarmos aqui vai ser transportado para o 'Head' do nosso 'document'*/}
+        <title>Compra efetuada | Ignite Shop</title>
+        <meta name="robots" content="noindex" /> {/*para a página não ser indexada pelo google*/}
+      </Head>
+      <SuccessContainer>
+        <h1>Compra efetuada!</h1>
+        <ImageContainer>
+          <Image src={product.imageUrl} alt="" width={120} height={110} />
+        </ImageContainer>
+        <p>
+          Uhuul <strong>{customerName}</strong>, sua{" "}
+          <strong>{product.name}</strong> já está a caminho da sua casa.
+        </p>
+        <Link href="/">Voltar ao catálogo</Link>
+      </SuccessContainer>
+    </>
   );
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   // vamos importar a tipagem da função - essa função exige que seja retornado props
   // console.log nessa função (ou em getStaticProps) aparece no servidor node.js
-  if (!query.session_id) { // se não existir o session_id vai entrar nas chaves
+  if (!query.session_id) {
+    // se não existir o session_id vai entrar nas chaves
     return {
-      redirect: { 
-        destination: "/", 
-        permanent: false // não é sempre que o usuário será redirecionado, por isso 'false'
+      redirect: {
+        destination: "/",
+        permanent: false, // não é sempre que o usuário será redirecionado, por isso 'false'
       },
     };
   }
