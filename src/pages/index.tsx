@@ -103,11 +103,10 @@ export default function Home({ products }: HomeProps) {
 export const getStaticProps: GetStaticProps = async () => {
   // vamos importar a tipagem da função
   //await new Promise(resolve => setTimeout(resolve, 2000)) // para o js ficar parado aqui 2 segundos - a tela vai demorar dois segundos pra ser carregado e os dados da lista vão aparecer juntos - isso ajuda o boot do google a ver a página inteira, diferente do SPA que os dados da API demoram pra carregar
-
   const response = await stripe.products.list({
     expand: ["data.default_price"], // quando fazemos essa expansão do id do preço podemos pegar as propriedades do preço
   });
-
+  
   const products = response.data.map((product) => {
     const price = product.default_price as Stripe.Price; // vamos forçar para que o price seja um Stripe.Price pois fizemos um expand (porque antes ele poderia ser uma string também na tipagem)
     return {
@@ -126,5 +125,6 @@ export const getStaticProps: GetStaticProps = async () => {
       products,
     },
     revalidate: 60 * 60 * 2, // para a página estática ser recriada no cache em um determinado intervalo de tempo ao usuário acessar a página - colocamos um número em segundos - 2 hours
+
   };
 }; // para obter propriedades do ServerSide (camada do next.js - servidor node) - portanto, essas props aparecem mesmo com js desabilitado - esse código é executado somente na camada node.js - só fazemos chamadas com getServerProps pra trazer informações pra nossa página que a gente precisa que esteja disponíveis assim que a página seja disponibilizada em tela para indexadores, boots...

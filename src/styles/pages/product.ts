@@ -4,8 +4,10 @@ export const ProductContainer = styled('main', {
   display: 'grid',
   gridTemplateColumns: '1fr 1fr',
   alignItems: 'stretch', // vai fazer com que as duas colunas do grid estiquem pra ter o mesmo tamanho verticalmente
+  justifyContent: 'space-between',
   gap: '4rem',
-  maxWidth: 1180,
+  width: '100%',
+  maxWidth: '86%',
   margin: '0 auto',
 })
 

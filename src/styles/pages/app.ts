@@ -4,9 +4,36 @@ import { styled } from "..";
 export const Container = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'flex-start',
-  minHeight: '100vh',
+  alignItems: 'center',
+  height: '100%',
   justifyContent: 'center', // aqui vamos colocar esse propriedade para todo o conteúdo ficar centralizado verticalmente - Header e os items de compra
+  '.modal': {
+    width: '100%',
+    position: 'absolute',
+    zIndex: 2,
+    top: 0,
+    left: 0,
+    height: '100%',
+    background: 'rgba(212, 221, 255, 0)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    '.modalContent': {
+      position: 'relative',
+      marginLeft: 'auto',
+      background: '$gray800',
+      height: '100%',
+      padding: '3rem',
+      width: '30rem',
+      '.item': {
+        display: 'flex',
+        alignItems: 'center',
+      }
+    },
+  },
+  '.none': {
+    display: 'none',
+  },
 })
 
 export const Header = styled('header', {
