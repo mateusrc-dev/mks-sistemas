@@ -7,6 +7,9 @@ import { GetStaticProps } from "next";
 import Link from "next/link";
 import Stripe from "stripe";
 import Head from "next/head";
+import { HiOutlineShoppingBag } from "react-icons/hi";
+import { SlArrowLeft } from "react-icons/sl";
+import { SlArrowRight } from "react-icons/sl"
 
 interface HomeProps {
   // tipagem das props que vem do servidor node.js
@@ -37,6 +40,12 @@ export default function Home({ products }: HomeProps) {
 
       <HomeContainer ref={sliderRef} className="keen-slider">
         {/*passamos ref para o container que cerca o slider - precisamos passar essas classes para o slider funcionar*/}
+        <div className="arrowLeft">
+          <SlArrowLeft />
+        </div>
+        <div className="arrowRight">
+          <SlArrowRight />
+        </div>
         {products.map((product) => {
           return (
             <Link
@@ -48,9 +57,14 @@ export default function Home({ products }: HomeProps) {
                 <Image src={product.imageUrl} alt="" width={520} height={480} />
                 {/*quando usamos o Image do next é importante colocar altura e largura pra imagem não ficar com um tamanho muito grande - precisamos colocar o domínio para o endereço da imagem funcionar no next*/}
                 <footer>
-                  {/*melhor elemento pra colocar legenda na imagem*/}
-                  <strong>{product.name}</strong>
-                  <span>{product.price}</span>
+                  <div className="detailsProduct">
+                    {/*melhor elemento pra colocar legenda na imagem*/}
+                    <strong>{product.name}</strong>
+                    <span>{product.price}</span>
+                  </div>
+                  <button>
+                    <HiOutlineShoppingBag />
+                  </button>
                 </footer>
               </Product>
             </Link>
