@@ -17,11 +17,19 @@ export const HomeContainer = styled('main', { // vai ficar por volta de todo o c
     width: '8.5rem',
     alignItems: 'center',
     background: 'linear-gradient(90deg,  rgba(18, 18, 20, 0.75) 0%, rgba(18, 18, 20, 0) 100%)',
+    button: {
+      background: 'none',
+      border: 'none',
+      '&:disabled': {
+        display: 'none',
+      }
+    },
     svg: {
       fontSize: '3rem',
       marginTop: -100,
       marginLeft: '1rem',
       cursor: 'pointer',
+      color: '$gray300',
       '&:hover': {
         filter: 'brightness(0.7)'
       },
@@ -36,11 +44,16 @@ export const HomeContainer = styled('main', { // vai ficar por volta de todo o c
     width: '8.5rem',
     alignItems: 'center',
     background: 'linear-gradient(90deg, rgba(18, 18, 20, 0) 0%, rgba(18, 18, 20, 0.75) 100%)',
+    button: {
+      background: 'none',
+      border: 'none',
+    },
     svg: {
       fontSize: '3rem',
       marginTop: -100,
       marginLeft: '4.5rem',
       cursor: 'pointer',
+      color: '$gray300',
       '&:hover': {
         filter: 'brightness(0.7)'
       },

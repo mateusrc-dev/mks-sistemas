@@ -9,7 +9,8 @@ import Stripe from "stripe";
 import Head from "next/head";
 import { HiOutlineShoppingBag } from "react-icons/hi";
 import { SlArrowLeft } from "react-icons/sl";
-import { SlArrowRight } from "react-icons/sl"
+import { SlArrowRight } from "react-icons/sl";
+import React, { useState } from "react";
 
 interface HomeProps {
   // tipagem das props que vem do servidor node.js
@@ -23,11 +24,21 @@ interface HomeProps {
 
 export default function Home({ products }: HomeProps) {
   // vamos pegar os products que vem do servidor node
-  const [sliderRef] = useKeenSlider({
+  const [currentSlide, setCurrentSlide] = React.useState(0);
+  const [loaded, setLoaded] = useState(false);
+  const [sliderRef, instanceRef] = useKeenSlider({
     // refs são funcionalidades do react que nos permite ter acesso a uma referência de um elemento na dom -> esse hook retorna um array
+    initial: 0,
+    slideChanged(slider) {
+      setCurrentSlide(slider.track.details.rel);
+    },
+    created() {
+      setLoaded(true);
+    },
     slides: {
       perView: 3, // para ficar aparecendo três produtos no slider
       spacing: 48, // para colocar espaço entre os items do slider
+      origin: 0.07,
     },
   });
 
@@ -41,10 +52,24 @@ export default function Home({ products }: HomeProps) {
       <HomeContainer ref={sliderRef} className="keen-slider">
         {/*passamos ref para o container que cerca o slider - precisamos passar essas classes para o slider funcionar*/}
         <div className="arrowLeft">
-          <SlArrowLeft />
+          <button
+            onClick={(e: any) =>
+              e.stopPropagation() || instanceRef.current?.prev()
+            }
+            disabled={currentSlide === 0}
+          >
+            <SlArrowLeft />
+          </button>
         </div>
         <div className="arrowRight">
-          <SlArrowRight />
+          <button
+            onClick={(e: any) =>
+              e.stopPropagation() || instanceRef.current?.next()
+            }
+            
+          >
+            <SlArrowRight />
+          </button>
         </div>
         {products.map((product) => {
           return (
