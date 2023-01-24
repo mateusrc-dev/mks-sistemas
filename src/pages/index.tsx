@@ -25,7 +25,7 @@ interface HomeProps {
 export default function Home({ products }: HomeProps) {
   // vamos pegar os products que vem do servidor node
   const [currentSlide, setCurrentSlide] = React.useState(0);
-  const [loaded, setLoaded] = useState(false);
+  const [, setLoaded] = useState(false);
   const [sliderRef, instanceRef] = useKeenSlider({
     // refs são funcionalidades do react que nos permite ter acesso a uma referência de um elemento na dom -> esse hook retorna um array
     initial: 0,
@@ -51,48 +51,48 @@ export default function Home({ products }: HomeProps) {
 
       <HomeContainer ref={sliderRef} className="keen-slider">
         {/*passamos ref para o container que cerca o slider - precisamos passar essas classes para o slider funcionar*/}
-        <div className="arrowLeft">
-          <button
-            onClick={(e: any) =>
-              e.stopPropagation() || instanceRef.current?.prev()
-            }
-            disabled={currentSlide === 0}
-          >
-            <SlArrowLeft />
-          </button>
-        </div>
-        <div className="arrowRight">
-          <button
-            onClick={(e: any) =>
-              e.stopPropagation() || instanceRef.current?.next()
-            }
-            
-          >
-            <SlArrowRight />
-          </button>
-        </div>
+        <button
+          className="arrowLeft"
+          onClick={(e: any) =>
+            e.stopPropagation() || instanceRef.current?.prev()
+          }
+          disabled={currentSlide === 0}
+        >
+          <SlArrowLeft />
+        </button>
+        <button
+          className="arrowRight"
+          onClick={(e: any) =>
+            e.stopPropagation() || instanceRef.current?.next()
+          }
+        >
+          <SlArrowRight />
+        </button>
         {products.map((product) => {
           return (
-            <Link
-              href={`/product/${product.id}`}
-              key={product.id}
-              prefetch={false}
-            >
-              <Product className="keen-slider__slide">
-                <Image src={product.imageUrl} alt="" width={520} height={480} />
-                {/*quando usamos o Image do next é importante colocar altura e largura pra imagem não ficar com um tamanho muito grande - precisamos colocar o domínio para o endereço da imagem funcionar no next*/}
-                <footer>
-                  <div className="detailsProduct">
-                    {/*melhor elemento pra colocar legenda na imagem*/}
-                    <strong>{product.name}</strong>
-                    <span>{product.price}</span>
-                  </div>
-                  <button>
-                    <HiOutlineShoppingBag />
-                  </button>
-                </footer>
-              </Product>
-            </Link>
+            <Product className="keen-slider__slide" key={product.id}>
+              <Link href={`/product/${product.id}`} prefetch={false}>
+                <div>
+                  <Image
+                    src={product.imageUrl}
+                    alt=""
+                    width={520}
+                    height={480}
+                  />
+                  {/*quando usamos o Image do next é importante colocar altura e largura pra imagem não ficar com um tamanho muito grande - precisamos colocar o domínio para o endereço da imagem funcionar no next*/}
+                  <footer>
+                    <div className="detailsProduct">
+                      {/*melhor elemento pra colocar legenda na imagem*/}
+                      <strong>{product.name}</strong>
+                      <span>{product.price}</span>
+                    </div>
+                    <button>
+                      <HiOutlineShoppingBag />
+                    </button>
+                  </footer>
+                </div>
+              </Link>
+            </Product>
           );
         })}
       </HomeContainer>
