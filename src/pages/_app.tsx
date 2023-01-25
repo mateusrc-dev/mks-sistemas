@@ -6,6 +6,7 @@ import { Container, Header } from "../styles/pages/app";
 import { HiOutlineShoppingBag } from "react-icons/hi";
 import { useState } from "react";
 import { CgClose } from "react-icons/cg";
+import { RequestContextProvider } from "../contexts/contextRequest";
 import Img from "../assets/1.png";
 
 globalStyles(); // aqui estamos importando o estilo global - melhor colocar fora porque os estilos não mudam - Component vai sempre trocar pela página que estamos acessando
@@ -112,7 +113,9 @@ export default function App({ Component, pageProps }: AppProps) {
           </div>
         </div>
       </div>
-      <Component {...pageProps} />
+      <RequestContextProvider>
+        <Component {...pageProps} />
+      </RequestContextProvider>
     </Container>
   );
 }

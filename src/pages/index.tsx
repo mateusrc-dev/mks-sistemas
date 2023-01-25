@@ -10,7 +10,8 @@ import Head from "next/head";
 import { HiOutlineShoppingBag } from "react-icons/hi";
 import { SlArrowLeft } from "react-icons/sl";
 import { SlArrowRight } from "react-icons/sl";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { RequestContext } from '../contexts/contextRequest'
 
 interface HomeProps {
   // tipagem das props que vem do servidor node.js
@@ -24,6 +25,7 @@ interface HomeProps {
 
 export default function Home({ products }: HomeProps) {
   // vamos pegar os products que vem do servidor node
+  const { handleNewRequest } = useContext(RequestContext)
   const [currentSlide, setCurrentSlide] = React.useState(0);
   const [, setLoaded] = useState(false);
   const [sliderRef, instanceRef] = useKeenSlider({
@@ -41,6 +43,10 @@ export default function Home({ products }: HomeProps) {
       origin: 0.07,
     },
   });
+
+  function NewRequest(title: string, price: string, img: string) {
+    handleNewRequest(title, price, img)
+  }
 
   return (
     <>
@@ -86,7 +92,7 @@ export default function Home({ products }: HomeProps) {
                       <strong>{product.name}</strong>
                       <span>{product.price}</span>
                     </div>
-                    <button>
+                    <button onClick={() => NewRequest(product.name, product.price, product.imageUrl)}>
                       <HiOutlineShoppingBag />
                     </button>
                   </footer>
