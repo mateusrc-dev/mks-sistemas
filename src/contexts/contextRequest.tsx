@@ -32,7 +32,6 @@ interface RequestContextProviderProps {
 export function RequestContextProvider({
   children,
 }: RequestContextProviderProps) {
-  const [State, setState] = useState(false)
   const [request, dispatch] = useReducer(
     (state: Request[], action: any) => {
       if (action.type === 'handleDelete') {
@@ -48,31 +47,42 @@ export function RequestContextProvider({
         return [...state, action.payload.newRequest]
       }
 
+      if (action.type === 'handleRequest') {
+        return  action.payload.Request
+      }
+
       return state
     },
-    [],
-    () => {
-      let storedStateAsJSON: any;
-      if (typeof window !== 'undefined') {
-      storedStateAsJSON = localStorage.getItem(
-        '@ignite-shop: request.state-1.0.0',
-      )
-    }
-
-      if (storedStateAsJSON) {
-        return JSON.parse(storedStateAsJSON)
-      } else {
-        return []
-      }
-    },
+    []
   )
 
   console.log(request)
 
   useEffect(() => {
-    const requestJSON = JSON.stringify(request)
-    localStorage.setItem('@ignite-shop: request.state-1.0.0', requestJSON)
-  }, [request, State])
+    function handleStorage() {
+      let storedStateAsJSON: any
+      if (typeof window !== 'undefined') {
+      storedStateAsJSON = localStorage.getItem(
+        '@ignite-shop: request.state-1.0.0',
+      )
+      }
+
+      if (storedStateAsJSON) {
+        dispatch({ type: 'handleRequest', payload: { Request: JSON.parse(storedStateAsJSON) } })
+      } else {
+        dispatch({ type: 'handleRequest', payload: { Request: [] } })
+      }
+    }
+    handleStorage()
+  }, [])
+
+  useEffect(() => {
+    function handleSetStorage() {
+      const requestJSON = JSON.stringify(request)
+      localStorage.setItem('@ignite-shop: request.state-1.0.0', requestJSON)
+    }
+    handleSetStorage()
+  }, [request])
 
   function handleDelete(index: number) {
     dispatch({ type: 'handleDelete', payload: { index } })

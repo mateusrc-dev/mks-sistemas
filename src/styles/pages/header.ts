@@ -8,29 +8,54 @@ export const HeaderContainer = styled("header", {
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-
-  button: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 12,
-    borderRadius: 6,
-    background: "$gray800",
-    border: "none",
-    cursor: "pointer",
-    "&:hover": {
-      filter: "brightness(0.7)",
+  ".buttonContainer": {
+    position: "relative",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    span: {
+      position: "absolute",
+      zIndex: 2,
+      bottom: 7,
+      left: 7,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      width: "1.5rem",
+      height: "1.5rem",
+      background: "$green500",
+      border: "3px solid $gray900",
+      borderRadius: "50%",
+      p: {
+      fontWeight: 700,
+      fontSize: "0.875rem",
+      color: "$white",
+      },
     },
-    svg: {
-      fontSize: 24,
-      color: "$gray600",
+    button: {
+      position: "absolute",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: 12,
+      borderRadius: 6,
+      background: "$gray800",
+      border: "none",
+      cursor: "pointer",
+      "&:hover": {
+        filter: "brightness(0.7)",
+      },
+      svg: {
+        fontSize: 24,
+        color: "$gray600",
+      },
     },
   },
 });
 
 export const Container = styled("div", {
-  display: 'flex',
-  width: '100%',
+  display: "flex",
+  width: "100%",
   ".modal": {
     width: "100%",
     position: "absolute",
@@ -83,23 +108,23 @@ export const Container = styled("div", {
         gap: "1.5rem",
         marginTop: "2rem",
         maxHeight: 335,
-        overflow: 'auto',
-        '&::-webkit-scrollbar': {
+        overflow: "auto",
+        "&::-webkit-scrollbar": {
           width: 15,
         },
-        '&::-webkit-scrollbar-thumb': {
-          background: '$green300',
+        "&::-webkit-scrollbar-thumb": {
+          background: "$green300",
           borderRadius: 10,
           width: 0,
-          backgroundClip: 'padding-box',
-          border: '3px solid transparent',
+          backgroundClip: "padding-box",
+          border: "3px solid transparent",
         },
-        '&::-webkit-scrollbar-thumb:hover': {
-          backgroundColor: '$green500',
+        "&::-webkit-scrollbar-thumb:hover": {
+          backgroundColor: "$green500",
           width: 0,
           borderRadius: 10,
-          backgroundClip: 'padding-box',
-          border: '3px solid transparent',
+          backgroundClip: "padding-box",
+          border: "3px solid transparent",
         },
       },
       ".item": {
@@ -192,7 +217,7 @@ export const Container = styled("div", {
           color: "$gray100",
         },
       },
-      '.buy': {
+      ".buy": {
         width: "100%",
         display: "flex",
         justifyContent: "center",
@@ -206,10 +231,10 @@ export const Container = styled("div", {
         fontSize: "1.125rem",
         lineHeight: 1.6,
         color: "$white",
-        cursor: 'pointer',
-        '&:hover': {
-          filter: 'brightness(0.7)',
-        }
+        cursor: "pointer",
+        "&:hover": {
+          filter: "brightness(0.7)",
+        },
       },
     },
   },

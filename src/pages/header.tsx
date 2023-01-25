@@ -25,7 +25,6 @@ export default function Header() {
   };
 
   function NewDelete(index: number) {
-    console.log(index)
     handleDelete(index);
   }
 
@@ -33,9 +32,12 @@ export default function Header() {
     <Container>
       <HeaderContainer>
         <Image src={logoImg} alt="" />
-        <button onClick={handleClick}>
-          <HiOutlineShoppingBag />
-        </button>
+        <div className="buttonContainer">
+          {request && request.length !== 0 ? <span>{request.length}</span> : null}
+          <button onClick={handleClick}>
+            <HiOutlineShoppingBag />
+          </button>
+        </div>
       </HeaderContainer>
       <div
         id="modal"
@@ -49,18 +51,19 @@ export default function Header() {
           <div className="wrappperOne">
             <h1>Sacola de compras</h1>
             <div className="items">
-              {request.map((item, index) => (
-                <div className="item" key={String(index)}>
-                  <div className="image">
-                    <Image src={item.img} alt="" width={95} height={95} />
+              {request &&
+                request.map((item, index) => (
+                  <div className="item" key={String(index)}>
+                    <div className="image">
+                      <Image src={item.img} alt="" width={95} height={95} />
+                    </div>
+                    <div className="details">
+                      <span>{item.title}</span>
+                      <strong>{item.price}</strong>
+                      <button onClick={() => NewDelete(index)}>Remover</button>
+                    </div>
                   </div>
-                  <div className="details">
-                    <span>{item.title}</span>
-                    <strong>R$ {item.price}</strong>
-                    <button onClick={() => NewDelete(index)}>Remover</button>
-                  </div>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
           <div className="wrapperTwo">
