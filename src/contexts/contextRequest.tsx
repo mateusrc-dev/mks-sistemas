@@ -14,7 +14,7 @@ interface Request {
 
 interface RequestContextType {
   request: Request[]
-  handleDelete: (img: string) => void
+  handleDelete: (index: number) => void
   handleDeleteRequests: () => void
   handleNewRequest: (
     title: string,
@@ -36,7 +36,7 @@ export function RequestContextProvider({
   const [request, dispatch] = useReducer(
     (state: Request[], action: any) => {
       if (action.type === 'handleDelete') {
-        const requests = state.filter((item) => item.img !== action.payload.img)
+        const requests = state.filter((item, index) => index !== action.payload.index)
         return requests
       }
 
@@ -74,8 +74,8 @@ export function RequestContextProvider({
     localStorage.setItem('@ignite-shop: request.state-1.0.0', requestJSON)
   }, [request, State])
 
-  function handleDelete(img: string) {
-    dispatch({ type: 'handleDelete', payload: { img } })
+  function handleDelete(index: number) {
+    dispatch({ type: 'handleDelete', payload: { index } })
   }
 
   function handleDeleteRequests() {

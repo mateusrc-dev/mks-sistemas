@@ -3,7 +3,7 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Stripe from "stripe";
 import { stripe } from "../../lib/stripe";
 import {
@@ -11,6 +11,7 @@ import {
   ProductContainer,
   ProductDetails,
 } from "../../styles/pages/product";
+import { RequestContext } from "../../contexts/contextRequest";
 
 interface ProductProps {
   product: {
@@ -26,11 +27,16 @@ interface ProductProps {
 export default function Product({ product }: ProductProps) {
   // vamos receber do servidor node.js as propriedades
   //const { query } = useRouter(); // com esse hook que vem de dentro do next podemos acessar os params que estão dentro do objeto chamado query
+  const { handleNewRequest } = useContext(RequestContext);
   const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
     useState(false);
   const { isFallback } = useRouter(); // o next nos permite através desse hook acessar isFallback - se isFallback for true quer dizer que a página está carregando - os dados que vem dos parâmetros e são processados em getStaticProps
   if (isFallback) {
     return <p>Loading...</p>;
+  }
+
+  function NewRequest(title: string, price: string, img: string) {
+    handleNewRequest(title, price, img);
   }
 
   async function handleBuyProduct() {
@@ -65,8 +71,11 @@ export default function Product({ product }: ProductProps) {
           <span>{product.price}</span>
           <p>{product.description}</p>
           <button
-            disabled={isCreatingCheckoutSession}
-            onClick={handleBuyProduct}
+            /*disabled={isCreatingCheckoutSession}*/
+            /*onClick={handleBuyProduct}*/
+            onClick={() =>
+              NewRequest(product.name, product.price, product.imageUrl)
+            }
           >
             Colocar na sacola
           </button>

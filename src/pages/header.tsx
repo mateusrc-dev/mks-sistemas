@@ -8,8 +8,7 @@ import { RequestContext } from "../contexts/contextRequest";
 
 export default function Header() {
   const [click, setClick] = useState(false);
-  const { request } = useContext(RequestContext);
-  console.log(request);
+  const { request, handleDelete } = useContext(RequestContext);
 
   function handleClick() {
     if (click === false) {
@@ -24,6 +23,12 @@ export default function Header() {
       handleClick();
     }
   };
+
+  function NewDelete(index: number) {
+    console.log(index)
+    handleDelete(index);
+  }
+
   return (
     <Container>
       <HeaderContainer>
@@ -44,15 +49,15 @@ export default function Header() {
           <div className="wrappperOne">
             <h1>Sacola de compras</h1>
             <div className="items">
-              {request.map((item) => (
-                <div className="item" key={String(item.img)}>
+              {request.map((item, index) => (
+                <div className="item" key={String(index)}>
                   <div className="image">
                     <Image src={item.img} alt="" width={95} height={95} />
                   </div>
                   <div className="details">
                     <span>{item.title}</span>
                     <strong>R$ {item.price}</strong>
-                    <button>Remover</button>
+                    <button onClick={() => NewDelete(index)}>Remover</button>
                   </div>
                 </div>
               ))}
