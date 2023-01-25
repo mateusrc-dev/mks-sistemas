@@ -69,9 +69,7 @@ export const Product = styled("div", {
   borderRadius: 8,
   //padding: '0.25rem', // essa propriedade não é calculada no slider
   cursor: "pointer",
-  position: "relative",
   overflow: "hidden", // para fazermos o efeito de hover sem criar a barra do lado e para o footer não surgir por cima da imagem e sim por dentro
-
   display: "flex", // propriedades para a imagem ficar centralizada
   alignItems: "center",
   justifyContent: "center",
@@ -87,20 +85,16 @@ export const Product = styled("div", {
     left: "0.25rem",
     right: "0.25rem",
     padding: "2rem",
-
     borderRadius: 6,
-
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
     gap: "1rem",
-
     backgroundColor: "rgba(0, 0, 0, 0.6)",
-
     transform: "translateY(110%)",
     opacity: 0,
     transition: "all 0.5s ease-in-out",
-
+    cursor: "auto",
     ".detailsProduct": {
       display: "flex",
       flexDirection: "column",
@@ -109,6 +103,7 @@ export const Product = styled("div", {
 
     button: {
       padding: 12,
+      position: "relative",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",

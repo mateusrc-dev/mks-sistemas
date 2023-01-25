@@ -11,7 +11,7 @@ import { HiOutlineShoppingBag } from "react-icons/hi";
 import { SlArrowLeft } from "react-icons/sl";
 import { SlArrowRight } from "react-icons/sl";
 import React, { useContext, useState } from "react";
-import { RequestContext } from '../contexts/contextRequest'
+import { RequestContext } from "../contexts/contextRequest";
 
 interface HomeProps {
   // tipagem das props que vem do servidor node.js
@@ -25,7 +25,7 @@ interface HomeProps {
 
 export default function Home({ products }: HomeProps) {
   // vamos pegar os products que vem do servidor node
-  const { handleNewRequest } = useContext(RequestContext)
+  const { handleNewRequest } = useContext(RequestContext);
   const [currentSlide, setCurrentSlide] = React.useState(0);
   const [, setLoaded] = useState(false);
   const [sliderRef, instanceRef] = useKeenSlider({
@@ -45,7 +45,7 @@ export default function Home({ products }: HomeProps) {
   });
 
   function NewRequest(title: string, price: string, img: string) {
-    handleNewRequest(title, price, img)
+    handleNewRequest(title, price, img);
   }
 
   return (
@@ -86,18 +86,22 @@ export default function Home({ products }: HomeProps) {
                     height={480}
                   />
                   {/*quando usamos o Image do next é importante colocar altura e largura pra imagem não ficar com um tamanho muito grande - precisamos colocar o domínio para o endereço da imagem funcionar no next*/}
-                  <footer>
-                    <div className="detailsProduct">
-                      {/*melhor elemento pra colocar legenda na imagem*/}
-                      <strong>{product.name}</strong>
-                      <span>{product.price}</span>
-                    </div>
-                    <button onClick={() => NewRequest(product.name, product.price, product.imageUrl)}>
-                      <HiOutlineShoppingBag />
-                    </button>
-                  </footer>
                 </div>
               </Link>
+              <footer>
+                <div className="detailsProduct">
+                  {/*melhor elemento pra colocar legenda na imagem*/}
+                  <strong>{product.name}</strong>
+                  <span>{product.price}</span>
+                </div>
+                <button
+                  onClick={() =>
+                    NewRequest(product.name, product.price, product.imageUrl)
+                  }
+                >
+                  <HiOutlineShoppingBag />
+                </button>
+              </footer>
             </Product>
           );
         })}
@@ -112,7 +116,7 @@ export const getStaticProps: GetStaticProps = async () => {
   const response = await stripe.products.list({
     expand: ["data.default_price"], // quando fazemos essa expansão do id do preço podemos pegar as propriedades do preço
   });
-  
+
   const products = response.data.map((product) => {
     const price = product.default_price as Stripe.Price; // vamos forçar para que o price seja um Stripe.Price pois fizemos um expand (porque antes ele poderia ser uma string também na tipagem)
     return {
@@ -131,6 +135,5 @@ export const getStaticProps: GetStaticProps = async () => {
       products,
     },
     revalidate: 60 * 60 * 2, // para a página estática ser recriada no cache em um determinado intervalo de tempo ao usuário acessar a página - colocamos um número em segundos - 2 hours
-
   };
 }; // para obter propriedades do ServerSide (camada do next.js - servidor node) - portanto, essas props aparecem mesmo com js desabilitado - esse código é executado somente na camada node.js - só fazemos chamadas com getServerProps pra trazer informações pra nossa página que a gente precisa que esteja disponíveis assim que a página seja disponibilizada em tela para indexadores, boots...
