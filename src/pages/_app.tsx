@@ -44,26 +44,72 @@ export default function App({ Component, pageProps }: AppProps) {
           <button className="close" onClick={() => handleClick()}>
             <CgClose />
           </button>
-          <h1>Sacola de compras</h1>
-          <div className="item">
-            <div className="image">
-              <Image src={Img} alt="" width={100} height={100}/>
+          <div className="wrappperOne">
+            <h1>Sacola de compras</h1>
+            <div className="items">
+              <div className="item">
+                <div className="image">
+                  <Image src={Img} alt="" width={95} height={95} />
+                </div>
+                <div className="details">
+                  <span>Camiseta linda do Explorer</span>
+                  <strong>R$ 79,90</strong>
+                  <button>Remover</button>
+                </div>
+              </div>
+              <div className="item">
+                <div className="image">
+                  <Image src={Img} alt="" width={95} height={95} />
+                </div>
+                <div className="details">
+                  <span>Camiseta linda do Explorer</span>
+                  <strong>R$ 79,90</strong>
+                  <button>Remover</button>
+                </div>
+              </div>
+              <div className="item">
+                <div className="image">
+                  <Image src={Img} alt="" width={95} height={95} />
+                </div>
+                <div className="details">
+                  <span>Camiseta linda do Explorer</span>
+                  <strong>R$ 79,90</strong>
+                  <button>Remover</button>
+                </div>
+              </div>
+              <div className="item">
+                <div className="image">
+                  <Image src={Img} alt="" width={95} height={95} />
+                </div>
+                <div className="details">
+                  <span>Camiseta linda do Explorer</span>
+                  <strong>R$ 79,90</strong>
+                  <button>Remover</button>
+                </div>
+              </div>
+              <div className="item">
+                <div className="image">
+                  <Image src={Img} alt="" width={95} height={95} />
+                </div>
+                <div className="details">
+                  <span>Camiseta linda do Explorer</span>
+                  <strong>R$ 79,90</strong>
+                  <button>Remover</button>
+                </div>
+              </div>
             </div>
-            <div className="details">
-              <span>Camiseta linda do Explorer</span>
-              <strong>R$ 79,90</strong>
-              <button>Remover</button>
+          </div>
+          <div className="wrapperTwo">
+            <div className="amounts">
+              <span>Quantidade</span>
+              <span>3 itens</span>
             </div>
+            <div className="total">
+              <strong>Valor total</strong>
+              <strong>R$ 270,00</strong>
+            </div>
+            <button className="buy">Finalizar compra</button>
           </div>
-          <div className="amounts">
-            <span>Quantidade</span>
-            <span>3 itens</span>
-          </div>
-          <div className="total">
-            <strong>Valor total</strong>
-            <strong>R$ 270,00</strong>
-          </div>
-          <button>Finalizar compra</button>
         </div>
       </div>
       <Component {...pageProps} />
