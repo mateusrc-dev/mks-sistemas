@@ -232,8 +232,13 @@ export const Container = styled("div", {
         lineHeight: 1.6,
         color: "$white",
         cursor: "pointer",
-        "&:hover": {
-          filter: "brightness(0.7)",
+        "&:disabled": {
+          opacity: 0.6,
+          cursor: "not-allowed",
+        },
+    
+        "&:not(:disabled):hover": {
+          backgroundColor: "$green300",
         },
       },
     },

@@ -10,16 +10,23 @@ interface Request {
   title: string
   price: string
   img: string
+  id: string,
+}
+
+interface PriceId {
+  id: string,
 }
 
 interface RequestContextType {
   request: Request[]
+  priceId: PriceId[]
   handleDelete: (index: number) => void
   handleDeleteRequests: () => void
   handleNewRequest: (
     title: string,
     price: string,
     img: string,
+    id: string,
   ) => void
 }
 
@@ -32,10 +39,11 @@ interface RequestContextProviderProps {
 export function RequestContextProvider({
   children,
 }: RequestContextProviderProps) {
+  const [priceId, setPriceId] = useState([])
   const [request, dispatch] = useReducer(
     (state: Request[], action: any) => {
       if (action.type === 'handleDelete') {
-        const requests = state.filter((item, index) => index !== action.payload.index)
+        const requests = state.filter((item, index) => index !== action.payload.inde)
         return requests
       }
 
@@ -56,8 +64,6 @@ export function RequestContextProvider({
     []
   )
 
-  console.log(request)
-
   useEffect(() => {
     function handleStorage() {
       let storedStateAsJSON: any
@@ -69,6 +75,7 @@ export function RequestContextProvider({
 
       if (storedStateAsJSON) {
         dispatch({ type: 'handleRequest', payload: { Request: JSON.parse(storedStateAsJSON) } })
+        setPriceId(JSON.parse(storedStateAsJSON))
       } else {
         dispatch({ type: 'handleRequest', payload: { Request: [] } })
       }
@@ -84,8 +91,9 @@ export function RequestContextProvider({
     handleSetStorage()
   }, [request])
 
-  function handleDelete(index: number) {
-    dispatch({ type: 'handleDelete', payload: { index } })
+  function handleDelete(inde: number) {
+    dispatch({ type: 'handleDelete', payload: { inde } })
+    setPriceId(state => state.filter((item, index) => index !== inde))
   }
 
   function handleDeleteRequests() {
@@ -96,19 +104,23 @@ export function RequestContextProvider({
     title: string,
     price: string,
     img: string,
+    id: string,
   ) {
     const newRequest: Request = {
       title,
       price,
       img,
+      id,
     }
     dispatch({ type: 'handleNewRequest', payload: { newRequest } })
+    setPriceId((prev) => [...prev, newRequest.id])
   }
   return (
     <RequestContext.Provider
       value={{
         handleNewRequest,
         request,
+        priceId,
         handleDelete,
         handleDeleteRequests,
       }}

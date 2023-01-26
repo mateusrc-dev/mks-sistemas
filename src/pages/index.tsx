@@ -17,6 +17,7 @@ interface HomeProps {
   // tipagem das props que vem do servidor node.js
   products: {
     id: string;
+    defaultPriceId: string,
     name: string;
     imageUrl: string;
     price: string;
@@ -44,8 +45,8 @@ export default function Home({ products }: HomeProps) {
     },
   });
 
-  function NewRequest(title: string, price: string, img: string) {
-    handleNewRequest(title, price, img);
+  function NewRequest(title: string, price: string, img: string, id: string) {
+    handleNewRequest(title, price, img, id);
   }
 
   return (
@@ -96,7 +97,7 @@ export default function Home({ products }: HomeProps) {
                 </div>
                 <button
                   onClick={() =>
-                    NewRequest(product.name, product.price, product.imageUrl)
+                    NewRequest(product.name, product.price, product.imageUrl, product.defaultPriceId)
                   }
                 >
                   <HiOutlineShoppingBag />
@@ -127,6 +128,7 @@ export const getStaticProps: GetStaticProps = async () => {
         style: "currency",
         currency: "BRL",
       }).format(price.unit_amount / 100), // vamos dividir por 100 porque o preço vem em centavos - uma dica é salvar no banco de dados o preço em centavos (o stripe faz isso - multiplica o preço por 100)
+      defaultPriceId: price.id,
     };
   }); // esses dados (se colocados no console.log) vão aparecer no console.log do node.js - vamos pegar apenas os dados que queremos
 

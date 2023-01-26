@@ -28,32 +28,13 @@ export default function Product({ product }: ProductProps) {
   // vamos receber do servidor node.js as propriedades
   //const { query } = useRouter(); // com esse hook que vem de dentro do next podemos acessar os params que estão dentro do objeto chamado query
   const { handleNewRequest } = useContext(RequestContext);
-  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
-    useState(false);
   const { isFallback } = useRouter(); // o next nos permite através desse hook acessar isFallback - se isFallback for true quer dizer que a página está carregando - os dados que vem dos parâmetros e são processados em getStaticProps
   if (isFallback) {
     return <p>Loading...</p>;
   }
 
-  function NewRequest(title: string, price: string, img: string) {
-    handleNewRequest(title, price, img);
-  }
-
-  async function handleBuyProduct() {
-    try {
-      setIsCreatingCheckoutSession(true);
-      //console.log(product.defaultPriceId)
-      const response = await axios.post("/api/checkout", {
-        priceId: product.defaultPriceId,
-      }); // para acessar nossa api router do next vamos usar o axios - como vamos criar um checkout session o melhor método é o post - como a api e frontend rodam no mesmo endereço, não precisamos criar um arquivo 'api' colocando o baseUrl - basta colocar o caminho do next
-
-      const { checkoutUrl } = response.data; // vamos pegar o url que é devolvido no checkout (o local onde a pessoa finaliza a compra)
-
-      window.location.href = checkoutUrl; // vamos redirecionar o usuário para um local externo da aplicação - se fosse para um local interno, usariamos useRouter do next e o método push (const router = useRouter() / router.push('/checkout'))
-    } catch (err) {
-      setIsCreatingCheckoutSession(false);
-      alert("Falha ao redirecionar ao checkout!");
-    } // é recomendável usar try catch quando vamos fazer requisições para api externas - principalmente para operações que vem através de usuários
+  function NewRequest(title: string, price: string, img: string, id: string) {
+    handleNewRequest(title, price, img, id);
   }
 
   return (
@@ -71,10 +52,8 @@ export default function Product({ product }: ProductProps) {
           <span>{product.price}</span>
           <p>{product.description}</p>
           <button
-            /*disabled={isCreatingCheckoutSession}*/
-            /*onClick={handleBuyProduct}*/
             onClick={() =>
-              NewRequest(product.name, product.price, product.imageUrl)
+              NewRequest(product.name, product.price, product.imageUrl, product.defaultPriceId)
             }
           >
             Colocar na sacola

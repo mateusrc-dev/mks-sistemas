@@ -5,10 +5,13 @@ import { HiOutlineShoppingBag } from "react-icons/hi";
 import { useContext, useState } from "react";
 import { CgClose } from "react-icons/cg";
 import { RequestContext } from "../contexts/contextRequest";
+import axios from "axios";
 
 export default function Header() {
   const [click, setClick] = useState(false);
-  const { request, handleDelete } = useContext(RequestContext);
+  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
+    useState(false);
+  const { request, handleDelete, priceId } = useContext(RequestContext);
 
   function handleClick() {
     if (click === false) {
@@ -28,12 +31,31 @@ export default function Header() {
     handleDelete(index);
   }
 
+  async function handleBuyProduct() {
+    try {
+      setIsCreatingCheckoutSession(true);
+      //console.log(product.defaultPriceId)
+      const response = await axios.post("/api/checkout", {
+        priceId: priceId
+      }); // para acessar nossa api router do next vamos usar o axios - como vamos criar um checkout session o melhor método é o post - como a api e frontend rodam no mesmo endereço, não precisamos criar um arquivo 'api' colocando o baseUrl - basta colocar o caminho do next
+
+      const { checkoutUrl } = response.data; // vamos pegar o url que é devolvido no checkout (o local onde a pessoa finaliza a compra)
+
+      window.location.href = checkoutUrl; // vamos redirecionar o usuário para um local externo da aplicação - se fosse para um local interno, usariamos useRouter do next e o método push (const router = useRouter() / router.push('/checkout'))
+    } catch (err) {
+      setIsCreatingCheckoutSession(false);
+      alert("Falha ao redirecionar ao checkout!");
+    } // é recomendável usar try catch quando vamos fazer requisições para api externas - principalmente para operações que vem através de usuários
+  }
+
   return (
     <Container>
       <HeaderContainer>
         <Image src={logoImg} alt="" />
         <div className="buttonContainer">
-          {request && request.length !== 0 ? <span>{request.length}</span> : null}
+          {request && request.length !== 0 ? (
+            <span>{request.length}</span>
+          ) : null}
           <button onClick={handleClick}>
             <HiOutlineShoppingBag />
           </button>
@@ -75,7 +97,13 @@ export default function Header() {
               <strong>Valor total</strong>
               <strong>R$ 270,00</strong>
             </div>
-            <button className="buy">Finalizar compra</button>
+            <button
+              className="buy"
+              disabled={isCreatingCheckoutSession}
+              onClick={handleBuyProduct}
+            >
+              Finalizar compra
+            </button>
           </div>
         </div>
       </div>
