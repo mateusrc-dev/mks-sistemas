@@ -4,8 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 //import Stripe from "stripe";
 import { stripe } from "../lib/stripe";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import { ImageContainer, SuccessContainer, ContainerImages } from "../styles/pages/success";
+import { RequestContext } from "../contexts/contextRequest";
 
 interface SuccessProps {
   session: {
@@ -15,9 +16,14 @@ interface SuccessProps {
 }
 
 export default function Success({ session, customerName }: SuccessProps) {
+  const { handleDeleteRequests } = useContext(RequestContext);
   const [amount] = useState(session.data.length);
-  console.log(session.data[0].price.product.images[0]);
   // vamos pegar as informações da propriedade
+
+  function handleDeleteAllRequests() {
+    handleDeleteRequests()
+  }
+ 
   return (
     <>
       <Head>
@@ -27,7 +33,6 @@ export default function Success({ session, customerName }: SuccessProps) {
         {/*para a página não ser indexada pelo google*/}
       </Head>
       <SuccessContainer>
-        <h1>Compra efetuada!</h1>
         <ContainerImages>
           {session.data.map((item: any, index: number) => (
             <ImageContainer key={String(index)}>
@@ -40,11 +45,12 @@ export default function Success({ session, customerName }: SuccessProps) {
             </ImageContainer>
           ))}
         </ContainerImages>
+        <h1>Compra efetuada!</h1>
         <p>
           Uhuul <strong>{customerName}</strong>, sua compra de {amount}{" "}
           camisetas já está a caminho da sua casa.
         </p>
-        <Link href="/">Voltar ao catálogo</Link>
+        <Link href={"/"} onClick={handleDeleteAllRequests}>Voltar ao catálogo</Link>
       </SuccessContainer>
     </>
   );
@@ -53,7 +59,7 @@ export default function Success({ session, customerName }: SuccessProps) {
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   // vamos importar a tipagem da função - essa função exige que seja retornado props
   // console.log nessa função (ou em getStaticProps) aparece no servidor node.js
-  /*if (!query.session_id) {
+  if (!query.session_id) {
     // se não existir o session_id vai entrar nas chaves
     return {
       redirect: {
@@ -61,7 +67,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
         permanent: false, // não é sempre que o usuário será redirecionado, por isso 'false'
       },
     };
-  }*/
+  }
   const sessionId = String(query.session_id); // podemos pegar o session_id de dentro do query - vamos forçar para que seja uma String (porque session_id pode ser uma string ou array de string)
   const name = await stripe.checkout.sessions.retrieve(sessionId, {
     expand: ["line_items", "line_items.data.price.product"],

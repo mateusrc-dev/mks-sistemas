@@ -29,7 +29,6 @@ export default function Home({ products }: HomeProps) {
   const { handleNewRequest } = useContext(RequestContext);
   const [currentSlide, setCurrentSlide] = React.useState(0);
   const [, setLoaded] = useState(false);
-  console.log(products)
   const [sliderRef, instanceRef] = useKeenSlider({
     // refs são funcionalidades do react que nos permite ter acesso a uma referência de um elemento na dom -> esse hook retorna um array
     initial: 0,
