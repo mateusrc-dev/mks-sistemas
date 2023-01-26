@@ -1,3 +1,5 @@
 [[redirects]]
-to = "/src/pages/_document"
-status = 200
+  from = "/"
+  to = "/coming-soon"
+  status = 302
+  force = false
