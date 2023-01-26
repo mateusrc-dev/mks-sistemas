@@ -6,10 +6,6 @@ const nextConfig = {
       'files.stripe.com', // precisamos desse domínio para as imagens funcionarem no next
     ]
   },
-
-  experimental: {
-    appDir: true,
-  },
 }
 
 module.exports = nextConfig
