@@ -1,5 +1,5 @@
 [[redirects]]
   from = "/"
-  to = "/coming-soon"
+  to = "/"
   status = 302
   force = false
