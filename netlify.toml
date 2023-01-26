@@ -1,4 +1,4 @@
 [[redirects]]
 from = "/*"
-to = "/src/pages/_document.tsx"
+to = "/src/pages"
 status = 200
