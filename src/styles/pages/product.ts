@@ -58,5 +58,8 @@ export const ProductDetails = styled("div", {
     cursor: "pointer",
     fontWeight: "bold",
     fontSize: "$md",
+    '&:hover': {
+      filter: 'brightness(0.7)',
+    }
   },
 });

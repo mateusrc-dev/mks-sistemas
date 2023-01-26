@@ -72,6 +72,7 @@ export default function Home({ products }: HomeProps) {
           onClick={(e: any) =>
             e.stopPropagation() || instanceRef.current?.next()
           }
+          disabled={currentSlide === 2}
         >
           <SlArrowRight />
         </button>

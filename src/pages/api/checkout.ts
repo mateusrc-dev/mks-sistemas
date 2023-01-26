@@ -16,6 +16,11 @@ export default async function handler(
     lineItems.push({
       price: item.id ? item.id : item,
       quantity: 1,
+      adjustable_quantity: {
+        enabled: true,
+        minimum: 1,
+        maximum: 10,
+      },
     });
   });
   console.log(lineItems);
