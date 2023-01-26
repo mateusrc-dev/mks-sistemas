@@ -9,6 +9,7 @@ import { HiOutlineShoppingBag } from "react-icons/hi";
 import { useContext, useState, useEffect } from "react";
 import { CgClose } from "react-icons/cg";
 import { RequestContext } from "../contexts/contextRequest";
+import { RiAlertFill } from "react-icons/ri"
 import axios from "axios";
 
 export default function Header() {
@@ -98,6 +99,8 @@ export default function Header() {
           </button>
           <div className="wrappperOne">
             <h1>Sacola de compras</h1>
+            {
+            request.length !== 0 ?
             <div className="items">
               {request &&
                 request.map((item, index) => (
@@ -113,6 +116,12 @@ export default function Header() {
                   </div>
                 ))}
             </div>
+            :
+            <div className="alert">
+              <RiAlertFill />
+              <h1>Ainda não tem camisetas adicionadas!</h1>
+            </div>
+            }
           </div>
           <div className="wrapperTwo">
             <div className="amounts">
@@ -127,7 +136,7 @@ export default function Header() {
             </div>
             <button
               className="buy"
-              disabled={isCreatingCheckoutSession}
+              disabled={isCreatingCheckoutSession || request.length === 0}
               onClick={handleBuyProduct}
             >
               Finalizar compra

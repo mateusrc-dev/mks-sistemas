@@ -89,6 +89,23 @@ export const Container = styled("div", {
       width: "32rem",
       gap: "1rem",
       boxShadow: "-4px 0px 30px rgba(0, 0, 0, 0.8)",
+      ".wrappperOne": {
+        ".alert": {
+        marginTop: '6rem',
+        display: "flex",
+        alignItems: 'center',
+        flexDirection: "column",
+        justifyContent: "center",
+        gap: '2rem',
+        h1: {
+          fontSize: '2rem',
+          fontStyle: 'italic',
+        },
+        svg: {
+          fontSize: '8rem',
+        },
+      }
+      },
       ".close": {
         position: "absolute",
         color: "$gray600",
