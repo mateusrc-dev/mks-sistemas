@@ -20,6 +20,8 @@ interface PriceId {
 interface RequestContextType {
   request: Request[]
   priceId: PriceId[]
+  headerState: boolean,
+  handleHeaderState: () => void,
   handleDelete: (index: number) => void
   handleDeleteRequests: () => void
   handleNewRequest: (
@@ -40,6 +42,7 @@ export function RequestContextProvider({
   children,
 }: RequestContextProviderProps) {
   const [priceId, setPriceId] = useState([])
+  const [headerState, setHeaderState] = useState(true)
   const [request, dispatch] = useReducer(
     (state: Request[], action: any) => {
       if (action.type === 'handleDelete') {
@@ -98,6 +101,7 @@ export function RequestContextProvider({
 
   function handleDeleteRequests() {
     dispatch({ type: 'handleDeleteRequests' })
+    setPriceId([])
   }
 
   function handleNewRequest(
@@ -115,6 +119,15 @@ export function RequestContextProvider({
     dispatch({ type: 'handleNewRequest', payload: { newRequest } })
     setPriceId((prev) => [...prev, newRequest.id])
   }
+
+  function handleHeaderState() {
+    if (headerState === false) {
+    setHeaderState(true)
+  } else {
+    setHeaderState(false)
+  }
+  }
+
   return (
     <RequestContext.Provider
       value={{
@@ -123,6 +136,8 @@ export function RequestContextProvider({
         priceId,
         handleDelete,
         handleDeleteRequests,
+        headerState,
+        handleHeaderState,
       }}
     >
       {children}

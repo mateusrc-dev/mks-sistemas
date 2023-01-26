@@ -53,6 +53,16 @@ export const HeaderContainer = styled("header", {
   },
 });
 
+export const HeaderContainerTwo = styled("header", {
+  padding: "2rem 0",
+  width: "100%",
+  maxWidth: "86%",
+  margin: "0 auto",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+});
+
 export const Container = styled("div", {
   display: "flex",
   width: "100%",

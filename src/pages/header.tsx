@@ -1,6 +1,10 @@
 import logoImg from "../assets/logo.svg";
 import Image from "next/image";
-import { HeaderContainer, Container } from "../styles/pages/header";
+import {
+  HeaderContainer,
+  Container,
+  HeaderContainerTwo,
+} from "../styles/pages/header";
 import { HiOutlineShoppingBag } from "react-icons/hi";
 import { useContext, useState, useEffect } from "react";
 import { CgClose } from "react-icons/cg";
@@ -11,8 +15,9 @@ export default function Header() {
   const [click, setClick] = useState(false);
   const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
     useState(false);
-  const { request, handleDelete, priceId } = useContext(RequestContext);
-  const [fullPrice, setFullPrice] = useState(0)
+  const { request, handleDelete, priceId, headerState } =
+    useContext(RequestContext);
+  const [fullPrice, setFullPrice] = useState(0);
 
   function handleClick() {
     if (click === false) {
@@ -34,24 +39,23 @@ export default function Header() {
 
   useEffect(() => {
     function handleFullPrice() {
-      let num = 0
-      let number: string
+      let num = 0;
+      let number: string;
       for (let i = 0; request.length > i; i++) {
-        number = request[i].price.replaceAll('R$', '').replace(',', '.')
-        num = num + Number(number)
+        number = request[i].price.replaceAll("R$", "").replace(",", ".");
+        num = num + Number(number);
       }
-      return num
+      return num;
     }
-    setFullPrice(handleFullPrice())
-  }, [request])
-
+    setFullPrice(handleFullPrice());
+  }, [request]);
 
   async function handleBuyProduct() {
     try {
       setIsCreatingCheckoutSession(true);
       //console.log(product.defaultPriceId)
       const response = await axios.post("/api/checkout", {
-        priceId: priceId
+        priceId: priceId,
       }); // para acessar nossa api router do next vamos usar o axios - como vamos criar um checkout session o melhor método é o post - como a api e frontend rodam no mesmo endereço, não precisamos criar um arquivo 'api' colocando o baseUrl - basta colocar o caminho do next
 
       const { checkoutUrl } = response.data; // vamos pegar o url que é devolvido no checkout (o local onde a pessoa finaliza a compra)
@@ -65,17 +69,24 @@ export default function Header() {
 
   return (
     <Container>
-      <HeaderContainer>
-        <Image src={logoImg} alt="" />
-        <div className="buttonContainer">
-          {request && request.length !== 0 ? (
-            <span>{request.length}</span>
-          ) : null}
-          <button onClick={handleClick}>
-            <HiOutlineShoppingBag />
-          </button>
-        </div>
-      </HeaderContainer>
+      {headerState ? (
+        <HeaderContainer>
+          <Image src={logoImg} alt="" />
+
+          <div className="buttonContainer">
+            {request && request.length !== 0 ? (
+              <span>{request.length}</span>
+            ) : null}
+            <button onClick={handleClick}>
+              <HiOutlineShoppingBag />
+            </button>
+          </div>
+        </HeaderContainer>
+      ) : (
+        <HeaderContainerTwo>
+          <Image src={logoImg} alt="" />
+        </HeaderContainerTwo>
+      )}
       <div
         id="modal"
         className={click ? "modal" : "none"}
@@ -110,7 +121,9 @@ export default function Header() {
             </div>
             <div className="total">
               <strong>Valor total</strong>
-              <strong>R$ {String((fullPrice).toFixed(2)).replace('.', ',')}</strong>
+              <strong>
+                R$ {String(fullPrice.toFixed(2)).replace(".", ",")}
+              </strong>
             </div>
             <button
               className="buy"

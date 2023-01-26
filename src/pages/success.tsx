@@ -5,7 +5,11 @@ import Link from "next/link";
 //import Stripe from "stripe";
 import { stripe } from "../lib/stripe";
 import { useState, useContext, useEffect } from "react";
-import { ImageContainer, SuccessContainer, ContainerImages } from "../styles/pages/success";
+import {
+  ImageContainer,
+  SuccessContainer,
+  ContainerImages,
+} from "../styles/pages/success";
 import { RequestContext } from "../contexts/contextRequest";
 
 interface SuccessProps {
@@ -16,14 +20,24 @@ interface SuccessProps {
 }
 
 export default function Success({ session, customerName }: SuccessProps) {
-  const { handleDeleteRequests } = useContext(RequestContext);
+  const { handleDeleteRequests, handleHeaderState, headerState, request } =
+    useContext(RequestContext);
   const [amount] = useState(session.data.length);
   // vamos pegar as informações da propriedade
 
   function handleDeleteAllRequests() {
-    handleDeleteRequests()
+    handleDeleteRequests();
+    if (headerState === false) {
+      handleHeaderState();
+    }
   }
- 
+
+  useEffect(() => {
+    if (headerState === true && request.length !== 0) {
+      handleHeaderState();
+    }
+  }, [handleHeaderState, headerState, request]);
+
   return (
     <>
       <Head>
@@ -50,7 +64,9 @@ export default function Success({ session, customerName }: SuccessProps) {
           Uhuul <strong>{customerName}</strong>, sua compra de {amount}{" "}
           camisetas já está a caminho da sua casa.
         </p>
-        <Link href={"/"} onClick={handleDeleteAllRequests}>Voltar ao catálogo</Link>
+        <Link href={"/"} onClick={handleDeleteAllRequests}>
+          Voltar ao catálogo
+        </Link>
       </SuccessContainer>
     </>
   );
