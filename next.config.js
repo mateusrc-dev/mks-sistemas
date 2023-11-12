@@ -3,7 +3,7 @@ const nextConfig = {
 
   images: {
     domains: [
-      'files.stripe.com', // precisamos desse domínio para as imagens funcionarem no next
+      "mks-sistemas.nyc3.digitaloceanspaces.com", // precisamos desse domínio para as imagens funcionarem no next
     ]
   },
 }
