@@ -9,3 +9,6 @@ We use the stripe API to place the products and pick up those products
 The checkout is completed in Stripe, when completing the purchase the page is redirected to our application
 
 Hooks such as useState, useEffect and useContext were used to create the logic of the application carts
+
+## deploy of application:
+• https://ignite-shop.netlify.app/
