@@ -43,7 +43,7 @@ export default function Header() {
       let number: string;
       for (let i = 0; request.length > i; i++) {
         number = request[i].price.replaceAll("R$", "").replace(",", ".");
-        num = num + Number(number);
+        num = num + Number(number) * request[i].count;
       }
       return num;
     }
@@ -76,7 +76,9 @@ export default function Header() {
             <Image src={X} alt="" />
           </button>
           <div className="wrappperOne">
-            <h1 style={{ width: "200px" }}>Carrinho de compras</h1>
+            <h1 style={{ width: "200px", padding: "10px" }}>
+              Carrinho de compras
+            </h1>
             {request.length !== 0 ? (
               <div className="items">
                 {request &&
@@ -132,24 +134,20 @@ export default function Header() {
               </div>
             )}
           </div>
-          <div className="wrapperTwo">
-            <div className="amounts">
-              <span>Quantidade</span>
-              <span>{request.length} itens</span>
-            </div>
+          <div style={{ padding: "0 10px" }}>
             <div className="total">
-              <strong>Valor total</strong>
+              <strong>Total:</strong>
               <strong>
-                R$ {String(fullPrice.toFixed(2)).replace(".", ",")}
+                R${String(fullPrice.toFixed(2)).replace(".", ",")}
               </strong>
             </div>
-            <Link href={`/success`}>
+            <Link href={`/success`} style={{ textDecoration: "none" }}>
               <button
                 className="buy"
                 onClick={handleClick}
                 disabled={request.length === 0}
               >
-                Finalizar compra
+                Finalizar Compra
               </button>
             </Link>
           </div>
