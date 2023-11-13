@@ -1,15 +1,17 @@
-import logoImg from "../assets/logo.svg";
 import Image from "next/image";
 import {
   HeaderContainer,
   Container,
-  HeaderContainerTwo,
+  LogoContainer,
+  LogoTitleOne,
+  LogoTitleTwo,
 } from "../styles/pages/header";
-import { HiOutlineShoppingBag } from "react-icons/hi";
+import Car from "../assets/car.svg";
 import { useContext, useState, useEffect } from "react";
 import { CgClose } from "react-icons/cg";
 import { RequestContext } from "../contexts/contextRequest";
 import { RiAlertFill } from "react-icons/ri";
+import Link from "next/link";
 
 export default function Header() {
   const [click, setClick] = useState(false);
@@ -56,24 +58,25 @@ export default function Header() {
 
   return (
     <Container>
-      {headerState ? (
-        <HeaderContainer>
-          <Image src={logoImg} alt="" />
-
-          <div className="buttonContainer">
-            {request && request.length !== 0 ? (
-              <span>{request.length}</span>
-            ) : null}
-            <button onClick={handleClick}>
-              <HiOutlineShoppingBag />
-            </button>
-          </div>
-        </HeaderContainer>
-      ) : (
-        <HeaderContainerTwo>
-          <Image src={logoImg} alt="" />
-        </HeaderContainerTwo>
-      )}
+      <HeaderContainer>
+        <LogoContainer>
+          <LogoTitleOne>MKS</LogoTitleOne>
+          <LogoTitleTwo>sistemas</LogoTitleTwo>
+        </LogoContainer>
+        <div className="buttonContainer">
+          <button
+            onClick={handleClick}
+            style={{
+              border: "none",
+              background: "transparent",
+              cursor: "pointer",
+            }}
+          >
+            <Image src={Car} alt="" />
+          </button>
+          <p className="countRequests">{request.length}</p>
+        </div>
+      </HeaderContainer>
       <div
         id="modal"
         className={click ? "modal" : "none"}
@@ -106,7 +109,7 @@ export default function Header() {
             ) : (
               <div className="alert">
                 <RiAlertFill />
-                <h1>Ainda não tem camisetas adicionadas!</h1>
+                <h1>Ainda não tem itens adicionados!</h1>
               </div>
             )}
           </div>
@@ -121,13 +124,15 @@ export default function Header() {
                 R$ {String(fullPrice.toFixed(2)).replace(".", ",")}
               </strong>
             </div>
-            <button
-              className="buy"
-              disabled={isCreatingCheckoutSession || request.length === 0}
-              onClick={handleBuyProduct}
-            >
-              Finalizar compra
-            </button>
+            <Link href={`/success`}>
+              <button
+                className="buy"
+                onClick={handleClick}
+                disabled={request.length === 0}
+              >
+                Finalizar compra
+              </button>
+            </Link>
           </div>
         </div>
       </div>

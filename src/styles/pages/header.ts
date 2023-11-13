@@ -8,60 +8,50 @@ export const HeaderContainer = styled("header", {
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
+  ".countRequests": {
+    color: '$gray900',
+    fontSize: '$1lg',
+    fontWeight: '700',
+    lineHeight: 'normal',
+    cursor: "pointer",
+  },
   ".buttonContainer": {
-    position: "relative",
+    width: "90px",
+    height: "45px",
+    borderRadius: "8px",
+    gap: "16px",
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    span: {
-      position: "absolute",
-      zIndex: 2,
-      bottom: 7,
-      left: 7,
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      width: "1.5rem",
-      height: "1.5rem",
-      background: "$green500",
-      border: "3px solid $gray900",
-      borderRadius: "50%",
-      p: {
-      fontWeight: 700,
-      fontSize: "0.875rem",
-      color: "$white",
-      },
-    },
-    button: {
-      position: "absolute",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      padding: 12,
-      borderRadius: 6,
-      background: "$gray800",
-      border: "none",
-      cursor: "pointer",
-      "&:hover": {
-        filter: "brightness(0.7)",
-      },
-      svg: {
-        fontSize: 24,
-        color: "$gray600",
-      },
+    padding: 12,
+    background: "$gray500",
+    border: "none",
+    cursor: "pointer",
+    "&:hover": {
+      filter: "brightness(0.7)",
     },
   },
 });
 
-export const HeaderContainerTwo = styled("header", {
-  padding: "2rem 0",
-  width: "100%",
-  maxWidth: "86%",
-  margin: "0 auto",
+export const LogoContainer = styled("div", {
   display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-});
+  alignItems: "baseline",
+  gap: "6px"
+})
+
+export const LogoTitleOne = styled("p", {
+  fontSize: "$1xl",
+  color: "$gray500",
+  fontWeight: 600,
+  lineHeight: "19px",
+})
+
+export const LogoTitleTwo = styled("p", {
+  color: "$gray500",
+  fontSize: "$xl",
+  fontWeight: 300,
+  lineHeight: "19px",
+})
 
 export const Container = styled("div", {
   display: "flex",

@@ -3,7 +3,6 @@ import { HomeContainer, Product } from "../styles/pages/home";
 import { useKeenSlider } from "keen-slider/react"; // biblioteca para criar o slider
 import "keen-slider/keen-slider.min.css"; //importando css da biblioteca do slider
 import { GetStaticProps } from "next";
-import Link from "next/link";
 import Head from "next/head";
 import { HiOutlineShoppingBag } from "react-icons/hi";
 import { SlArrowLeft } from "react-icons/sl";
@@ -85,12 +84,10 @@ export default function Home(products: HomeProps) {
         {products.productsData.products.map((product) => {
           return (
             <Product className="keen-slider__slide" key={product.id}>
-              <Link href={`/product/${product.id}`} prefetch={false}>
-                <div>
-                  <Image src={product.photo} alt="" width={520} height={480} />
-                  {/*quando usamos o Image do next é importante colocar altura e largura pra imagem não ficar com um tamanho muito grande - precisamos colocar o domínio para o endereço da imagem funcionar no next*/}
-                </div>
-              </Link>
+              <div>
+                <Image src={product.photo} alt="" width={520} height={480} />
+                {/*quando usamos o Image do next é importante colocar altura e largura pra imagem não ficar com um tamanho muito grande - precisamos colocar o domínio para o endereço da imagem funcionar no next*/}
+              </div>
               <footer>
                 <div className="detailsProduct">
                   {/*melhor elemento pra colocar legenda na imagem*/}

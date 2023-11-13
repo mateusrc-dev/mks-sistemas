@@ -12,21 +12,23 @@ export const {
 } = createStitches({
   theme: { //podemos acessar várias propriedades css e configurá-las
     colors: {
-      rocketseat: '#8257e6',
-      white: '#FFF',
-      gray900: '#121214',
-      gray800: '#202024',
-      gray600: '#8d8d99',
-      gray300: '#c4c4cc',
-      gray100: '#e1e1e6',
+      gray900: '#000000',
+      gray800: '#2C2C2C',
+      gray700: '#373737',
+      gray600: '#EEEEEE',
+      gray500: '#FFFFFF',
+      gray400: '#F9F9F9',
 
-      green500: '#00875f',
-      green300: '#00b37e'
+      blue500: '#0F52BA',
     },
     fontSizes: {// como vamos ter valores pré-definidos para tamanho de fontes, vamos colocá-los aqui
-      md: '1.125rem',
-      lg: '1.25rem',
-      xl: '1.5rem',
+      md: '10px',
+      '2md': '14px',
+      '3md': '15px',
+      lg: '16px',
+      '1lg': '18px',
+      xl: '20px',
+      '1xl': '40px',
       '2xl': '2rem',
     },
   }
