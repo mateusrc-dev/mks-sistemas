@@ -3,6 +3,7 @@ import { globalStyles } from "../styles/global";
 import { Container } from "../styles/pages/app";
 import Header from "./header";
 import { RequestContextProvider } from "../contexts/contextRequest";
+import Footer from "./footer";
 
 globalStyles(); // aqui estamos importando o estilo global - melhor colocar fora porque os estilos não mudam - Component vai sempre trocar pela página que estamos acessando
 
@@ -14,6 +15,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <RequestContextProvider>
         <Header />
         <Component {...pageProps} />
+        <Footer />
       </RequestContextProvider>
     </Container>
   );

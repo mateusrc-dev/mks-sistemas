@@ -15,13 +15,11 @@
     "axios": "^1.2.3",
     "eslint": "8.32.0",
     "eslint-config-next": "13.1.2",
-    "keen-slider": "^6.8.5",
     "next": "13.1.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.7.1",
-    "react-router-dom": "^6.7.0",
-    "stripe": "^11.6.0"
+    "react-router-dom": "^6.7.0"
   },
   "devDependencies": {
     "@types/node": "^18.11.18",

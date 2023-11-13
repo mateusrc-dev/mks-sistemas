@@ -8,17 +8,14 @@ import {
 } from "../styles/pages/header";
 import Car from "../assets/car.svg";
 import { useContext, useState, useEffect } from "react";
-import { CgClose } from "react-icons/cg";
+import X from "../assets/x.svg";
 import { RequestContext } from "../contexts/contextRequest";
 import { RiAlertFill } from "react-icons/ri";
 import Link from "next/link";
 
 export default function Header() {
   const [click, setClick] = useState(false);
-  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
-    useState(false);
-  const { request, handleDelete, priceId, headerState } =
-    useContext(RequestContext);
+  const { request, handleDelete, headerState } = useContext(RequestContext);
   const [fullPrice, setFullPrice] = useState(0);
 
   function handleClick() {
@@ -52,10 +49,6 @@ export default function Header() {
     setFullPrice(handleFullPrice());
   }, [request]);
 
-  async function handleBuyProduct() {
-    console.log("clicando no botão de compra!");
-  }
-
   return (
     <Container>
       <HeaderContainer>
@@ -63,19 +56,14 @@ export default function Header() {
           <LogoTitleOne>MKS</LogoTitleOne>
           <LogoTitleTwo>sistemas</LogoTitleTwo>
         </LogoContainer>
-        <div className="buttonContainer">
-          <button
-            onClick={handleClick}
-            style={{
-              border: "none",
-              background: "transparent",
-              cursor: "pointer",
-            }}
-          >
+        {headerState ? (
+          <button className="buttonContainer" onClick={handleClick}>
             <Image src={Car} alt="" />
+            <p className="countRequests">{request.length}</p>
           </button>
-          <p className="countRequests">{request.length}</p>
-        </div>
+        ) : (
+          <></>
+        )}
       </HeaderContainer>
       <div
         id="modal"
@@ -84,10 +72,10 @@ export default function Header() {
       >
         <div className="modalContent">
           <button className="close" onClick={() => handleClick()}>
-            <CgClose />
+            <Image src={X} alt="" />
           </button>
           <div className="wrappperOne">
-            <h1>Sacola de compras</h1>
+            <h1>Carrinho de compras</h1>
             {request.length !== 0 ? (
               <div className="items">
                 {request &&
@@ -108,7 +96,7 @@ export default function Header() {
               </div>
             ) : (
               <div className="alert">
-                <RiAlertFill />
+                <RiAlertFill size={100} color="#ffffff" />
                 <h1>Ainda não tem itens adicionados!</h1>
               </div>
             )}

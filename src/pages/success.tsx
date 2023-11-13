@@ -1,9 +1,7 @@
-import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-//import Stripe from "stripe";
-import { useState, useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import {
   ImageContainer,
   SuccessContainer,

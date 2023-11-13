@@ -8,9 +8,9 @@ export const {
   keyframes,
   getCssText,
   theme,
-  createTheme // vamos desestruturar para exportar propriedades específicas
+  createTheme
 } = createStitches({
-  theme: { //podemos acessar várias propriedades css e configurá-las
+  theme: { 
     colors: {
       gray900: '#000000',
       gray800: '#2C2C2C',
@@ -21,7 +21,7 @@ export const {
 
       blue500: '#0F52BA',
     },
-    fontSizes: {// como vamos ter valores pré-definidos para tamanho de fontes, vamos colocá-los aqui
+    fontSizes: {
       md: '10px',
       '2md': '14px',
       '3md': '15px',
@@ -32,4 +32,4 @@ export const {
       '2xl': '2rem',
     },
   }
-}) // essa função devolve uma série de configurações - podemos configurar com essa função algumas coisas
+}) 
