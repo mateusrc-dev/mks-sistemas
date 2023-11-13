@@ -27,7 +27,7 @@ export default function Home(products: HomeProps) {
   const { handleNewRequest } = useContext(RequestContext);
 
   function NewRequest(title: string, price: string, img: string, id: string) {
-    handleNewRequest(title, price, img, id);
+    handleNewRequest(title, price, img, id, 1);
   }
 
   return (

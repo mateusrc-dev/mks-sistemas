@@ -1,6 +1,6 @@
 import { styled } from "..";
 
-export const FooterContainer = styled("header", {
+export const FooterContainer = styled("footer", {
   width: "100%",
   height: "34px",
   display: "flex",

@@ -12,6 +12,7 @@ import X from "../assets/x.svg";
 import { RequestContext } from "../contexts/contextRequest";
 import { RiAlertFill } from "react-icons/ri";
 import Link from "next/link";
+import CountItems from "./countItems";
 
 export default function Header() {
   const [click, setClick] = useState(false);
@@ -75,7 +76,7 @@ export default function Header() {
             <Image src={X} alt="" />
           </button>
           <div className="wrappperOne">
-            <h1>Carrinho de compras</h1>
+            <h1 style={{ width: "200px" }}>Carrinho de compras</h1>
             {request.length !== 0 ? (
               <div className="items">
                 {request &&
@@ -86,9 +87,39 @@ export default function Header() {
                       </div>
                       <div className="details">
                         <span>{item.title}</span>
-                        <strong>{item.price}</strong>
-                        <button onClick={() => NewDelete(index)}>
-                          Remover
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              gap: "4px",
+                            }}
+                          >
+                            <p
+                              style={{
+                                color: "#000",
+                                fontSize: "5px",
+                                fontWeight: 400,
+                                lineHeight: "normal",
+                              }}
+                            >
+                              Qtd:
+                            </p>
+                            <CountItems itemId={item.id} count={item.count} />
+                          </div>
+                          <strong>R${item.price}</strong>
+                        </div>
+                        <button
+                          onClick={() => NewDelete(index)}
+                          className="removeItem"
+                        >
+                          <Image src={X} width={8} alt="" />
                         </button>
                       </div>
                     </div>
