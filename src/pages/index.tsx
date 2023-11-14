@@ -3,7 +3,7 @@ import { CardsContainer, Product } from "../styles/pages/home";
 import { GetStaticProps } from "next";
 import Head from "next/head";
 import shoppingBag from "../assets/shopping-bag.svg";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { RequestContext } from "../contexts/contextRequest";
 import { api } from "./services/api";
 
