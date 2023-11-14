@@ -38,6 +38,7 @@ export const SuccessContainer = styled('main', {
 })
 
 export const ImageContainer = styled('div', {
+  position: "relative",
   width: '100%',
   maxWidth: 140,
   height: 140,
@@ -50,6 +51,20 @@ export const ImageContainer = styled('div', {
   marginTop: '4rem',
   marginRight: -52,
   boxShadow: '0px 0px 60px rgba(0, 0, 0, 0.8)',
+  ".viewCount": {
+    position: "absolute",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "30px",
+    height: "30px",
+    borderRadius: "100%",
+    top: "-15px",
+    left: "60px",
+    background: "$blue500",
+    fontWeight: 700,
+    color: "$gray500"
+  },
   img: {
     objectFit: 'cover',
   },

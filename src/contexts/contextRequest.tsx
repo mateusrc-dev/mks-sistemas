@@ -6,7 +6,7 @@ import {
   useState,
 } from "react";
 
-interface Request {
+export interface Request {
   title: string;
   price: string;
   img: string;

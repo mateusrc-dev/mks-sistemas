@@ -1,18 +1,18 @@
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   ImageContainer,
   SuccessContainer,
   ContainerImages,
 } from "../styles/pages/success";
-import { RequestContext } from "../contexts/contextRequest";
+import { Request, RequestContext } from "../contexts/contextRequest";
 
 export default function Success() {
   const { handleDeleteRequests, handleHeaderState, headerState, request } =
     useContext(RequestContext);
-  // vamos pegar as informações da propriedade
+  const [fullRequests, setFullRequests] = useState<number>(0);
 
   function handleDeleteAllRequests() {
     handleDeleteRequests();
@@ -20,6 +20,17 @@ export default function Success() {
       handleHeaderState();
     }
   }
+
+  useEffect(() => {
+    function handleFullRequests() {
+      let num = 0;
+      for (let i = 0; request.length > i; i++) {
+        num = num + request[i].count;
+      }
+      return num;
+    }
+    setFullRequests(handleFullRequests());
+  }, [request]);
 
   useEffect(() => {
     if (headerState === true && request.length !== 0) {
@@ -30,15 +41,15 @@ export default function Success() {
   return (
     <>
       <Head>
-        {/*tudo que colocarmos aqui vai ser transportado para o 'Head' do nosso 'document'*/}
         <title>Compra efetuada | Ignite Shop</title>
         <meta name="robots" content="noindex" />{" "}
-        {/*para a página não ser indexada pelo google*/}
       </Head>
       <SuccessContainer>
         <ContainerImages>
-          {request.map((item: any, index: number) => (
+          {request.map((item: Request, index: number) => (
             <ImageContainer key={String(index)}>
+              {/*colocar uma bolinha com quantidade...*/}
+              <div className="viewCount">{item.count}</div>
               <Image
                 src={item.img}
                 alt=""
@@ -51,7 +62,7 @@ export default function Success() {
         </ContainerImages>
         <h1>Compra efetuada!</h1>
         <p>
-          Uhuul, sua compra de {request.length} itens já está a caminho da sua
+          Uhuul, sua compra de {fullRequests} itens já está a caminho da sua
           casa.
         </p>
         <Link href={"/"} onClick={handleDeleteAllRequests}>
