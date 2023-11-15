@@ -19,6 +19,8 @@ export default function Header() {
   const { request, handleDelete, headerState } = useContext(RequestContext);
   const [fullPrice, setFullPrice] = useState(0);
 
+  const length = request?.length || 0;
+
   function handleClick() {
     if (click === false) {
       setClick(true);
@@ -41,14 +43,14 @@ export default function Header() {
     function handleFullPrice() {
       let num = 0;
       let number: string;
-      for (let i = 0; request.length > i; i++) {
+      for (let i = 0; length > i; i++) {
         number = request[i].price.replaceAll("R$", "").replace(",", ".");
         num = num + Number(number) * request[i].count;
       }
       return num;
     }
     setFullPrice(handleFullPrice());
-  }, [request]);
+  }, [length, request]);
 
   return (
     <Container>
@@ -59,8 +61,8 @@ export default function Header() {
         </LogoContainer>
         {headerState ? (
           <button className="buttonContainer" onClick={handleClick}>
-            <Image src={Car} alt="" />
-            <p className="countRequests">{request.length}</p>
+            <Image itemID="carTest" src={Car} alt="" />
+            <p className="countRequests">{length}</p>
           </button>
         ) : (
           <></>
@@ -79,7 +81,7 @@ export default function Header() {
             <h1 style={{ width: "200px", padding: "10px" }}>
               Carrinho de compras
             </h1>
-            {request.length !== 0 ? (
+            {length !== 0 ? (
               <div className="items">
                 {request &&
                   request.map((item, index) => (
@@ -145,7 +147,7 @@ export default function Header() {
               <button
                 className="buy"
                 onClick={handleClick}
-                disabled={request.length === 0}
+                disabled={length === 0}
               >
                 Finalizar Compra
               </button>

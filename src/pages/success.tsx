@@ -24,8 +24,8 @@ export default function Success() {
   useEffect(() => {
     function handleFullRequests() {
       let num = 0;
-      for (let i = 0; request.length > i; i++) {
-        num = num + request[i].count;
+      for (let i = 0; request?.length > i; i++) {
+        num = num + request[i]?.count;
       }
       return num;
     }
@@ -33,7 +33,7 @@ export default function Success() {
   }, [request]);
 
   useEffect(() => {
-    if (headerState === true && request.length !== 0) {
+    if (headerState === true && request?.length !== 0) {
       handleHeaderState();
     }
   }, [handleHeaderState, headerState, request]);
@@ -46,7 +46,7 @@ export default function Success() {
       </Head>
       <SuccessContainer>
         <ContainerImages>
-          {request.map((item: Request, index: number) => (
+          {request?.map((item: Request, index: number) => (
             <ImageContainer key={String(index)}>
               {/*colocar uma bolinha com quantidade...*/}
               <div className="viewCount">{item.count}</div>
