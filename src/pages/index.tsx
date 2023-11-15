@@ -5,7 +5,7 @@ import Head from "next/head";
 import shoppingBag from "../assets/shopping-bag.svg";
 import React, { useContext } from "react";
 import { RequestContext } from "../contexts/contextRequest";
-import { api } from "./services/api";
+import { api } from "../services/api";
 
 interface HomeProps {
   productsData: {
